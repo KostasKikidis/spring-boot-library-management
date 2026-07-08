@@ -99,3 +99,100 @@ Through this project, I gained practical experience with:
 
 ---
 
+# ⚙️ Getting Started
+
+Follow the steps below to run the project on your local machine.
+
+
+Make sure you have the following installed:
+
+- Java 25
+- Maven
+- PostgreSQL
+- IntelliJ IDEA (or another Java IDE)
+
+---
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+```
+
+Replace:
+
+- `YOUR_USERNAME` with your GitHub username.
+- `YOUR_REPOSITORY` with the repository name.
+
+---
+
+## Configure PostgreSQL
+
+Create a PostgreSQL database (for example):
+
+```sql
+CREATE DATABASE library_management;
+```
+
+---
+
+## Configure `application.properties`
+
+Open the file:
+
+```
+src/main/resources/application.properties
+```
+
+Update the database configuration with your own PostgreSQL credentials:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/library_management
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+Replace:
+
+- `YOUR_USERNAME` with your PostgreSQL username.
+- `YOUR_PASSWORD` with your PostgreSQL password.
+
+---
+
+## Install Dependencies
+
+This project uses Maven for dependency management.
+
+Reload the Maven project in your IDE or run:
+
+```bash
+mvn clean install
+```
+
+---
+
+## Run the Application
+
+Start the application by running:
+
+```
+LibraryManagementApplication.java
+```
+
+or execute:
+
+```bash
+mvn spring-boot:run
+```
+
+Once the application starts successfully, open:
+
+```
+http://localhost:8080
+```
+
+to access the Library Management System.
+
