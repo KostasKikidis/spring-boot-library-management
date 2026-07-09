@@ -2,75 +2,157 @@
 
 ## 📌 Overview
 
-This project is a Library Management System built with **Spring Boot**, **PostgreSQL**, and **Thymeleaf**.
+This project is a **Library Management System** built with **Spring Boot**, **PostgreSQL**, and **Thymeleaf**.
 
-The goal of this project was to gain practical experience with backend development and understand how a real Spring Boot application is structured.
+The primary goal of this project was to gain hands-on experience with backend development and understand how a
+real-world Spring Boot application is structured.
 
-Through this project, I practiced:
-
-- Spring MVC architecture
-- Layered application design
-- Database integration with PostgreSQL
-- Spring Data JPA and Hibernate
-- REST API development
-- Server-side rendering with Thymeleaf
+During the development process, I focused not only on implementing application features but also on improving the
+architecture by applying common backend development practices such as **DTOs**, **Mapper Pattern**, **layered
+architecture**, and **Spring Data JPA**.
 
 ---
 
-# ✨ Features
+# 🚀 Features
 
 ## 📖 Book Management
 
 - View all books
-- Add new books
-- Update existing books by ID
-- Delete books by ID
-- Manage book availability status
+- Add a new book
+- Update an existing book
+- Delete a book
+- Manage book availability
 
 ## 🔍 Search & Filtering
 
-- Search books by ID
-- Search books by title and author
+- Search by ID
+- Search by title
+- Search by author
 - Filter books by price
-- Display available and unavailable books
+- Display available books
+- Display unavailable books
 
 ---
 
 # 🛠 Technologies Used
 
 ## Backend
+
 - Java 25
 - Spring Boot
 - Spring MVC
 - Spring Data JPA
 - Hibernate ORM
 - Jakarta Validation
+- DTO Pattern
+- Mapper Pattern
 
 ## Database
+
 - PostgreSQL
 
 ## Frontend
+
 - Thymeleaf
 - HTML5
 - CSS3
 
 ## Tools
-- Maven
-- IntelliJ IDEA
-- Postman
 
+- Maven
+- IntelliJ IDEA Community Edition
+- Postman
+- Git
+- GitHub
 
 ---
 
-# 🏗 Architecture
+# 🏗 Application Architecture
 
-The project follows a layered architecture using the MVC pattern.
+The application follows a layered architecture based on the Spring MVC design pattern.
 
+```text
+                Browser
+                   │
+                   ▼
+             Controller
+                   │
+                   ▼
+               BookDTO
+                   │
+                   ▼
+               Service
+                   │
+                   ▼
+              BookMapper
+                   │
+                   ▼
+              Book Entity
+                   │
+                   ▼
+             Repository
+                   │
+                   ▼
+              PostgreSQL
+```
 
-- **Controller Layer:** Handles user requests and communicates with the application logic.
-- **Service Layer:** Contains the main business logic of the application.
-- **Repository Layer:** Manages communication with the database using Spring Data JPA.
-- **Entity Layer:** Represents the database models, such as the `Book` entity.
+---
+
+## Controller Layer
+
+Responsible for handling HTTP requests and responses.
+
+Responsibilities:
+
+- Receives user requests
+- Accepts and returns DTO objects
+- Delegates business logic to the Service layer
+
+---
+
+## Service Layer
+
+Contains the application's business logic.
+
+Responsibilities:
+
+- Coordinates communication between application layers
+- Processes business operations
+- Uses the Mapper to convert between DTOs and Entities
+
+---
+
+## Mapper Layer
+
+Responsible for converting objects between different layers.
+
+Responsibilities:
+
+- Converts **BookDTO → Book Entity**
+- Converts **Book Entity → BookDTO**
+- Decouples the presentation layer from the persistence layer
+
+---
+
+## Repository Layer
+
+Responsible for database communication using Spring Data JPA.
+
+Responsibilities:
+
+- Create records
+- Read records
+- Update records
+- Delete records
+
+---
+
+## Entity Layer
+
+Represents the database model.
+
+The `Book` entity is used exclusively by the persistence layer and contains the structure of the corresponding database
+table.
 
 ---
 
@@ -78,42 +160,69 @@ The project follows a layered architecture using the MVC pattern.
 
 The application provides:
 
-- Web interface using Thymeleaf
-- CRUD operations for books
+- Server-side rendered web pages using Thymeleaf
+- Complete CRUD operations
 - REST API endpoints
-- Data persistence with PostgreSQL
-- Searching and filtering functionality
+- PostgreSQL persistence
+- Dynamic searching and filtering
+- Input validation using Jakarta Validation
+
+---
+
+# 🔄 DTO & Mapper Refactoring
+
+One of the main improvements of this project was introducing the **DTO (Data Transfer Object)** and **Mapper** patterns.
+
+Instead of exposing JPA entities directly to the presentation layer, the application now communicates using **BookDTO**
+objects.
+
+The mapper is responsible for converting between DTOs and entities.
+
+This approach provides:
+
+- Better separation of concerns
+- Cleaner architecture
+- Reduced coupling between API and database
+- Controlled data exposure
+- Easier future maintenance
+- Improved scalability
 
 ---
 
 # 📚 What I Learned
 
-Through this project, I gained practical experience with:
+Through this project I gained practical experience with:
 
 - Building a Spring Boot application from scratch
-- Understanding MVC and layered architecture
-- Working with PostgreSQL and JPA/Hibernate
-- Creating REST APIs
-- Connecting frontend views with backend logic
-- Structuring a maintainable backend project
+- Understanding Spring MVC architecture
+- Implementing layered architecture
+- Working with Spring Data JPA and Hibernate
+- Integrating PostgreSQL
+- Building REST APIs
+- Server-side rendering using Thymeleaf
+- Applying Jakarta Validation
+- Implementing DTO Pattern
+- Implementing Mapper Pattern
+- Separating presentation and persistence layers
+- Writing cleaner and more maintainable backend code
+- Managing a Java project with Maven
+- Testing REST endpoints using Postman
+- Version control using Git and GitHub
 
 ---
 
 # ⚙️ Getting Started
 
-Follow the steps below to run the project on your local machine.
-
-
-Make sure you have the following installed:
+Make sure you have installed:
 
 - Java 25
 - Maven
 - PostgreSQL
-- IntelliJ IDEA (or another Java IDE)
+- IntelliJ IDEA (or any Java IDE)
 
 ---
 
-## Clone the Repository
+## Clone the repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
@@ -121,52 +230,54 @@ git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
 
 Replace:
 
-- `YOUR_USERNAME` with your GitHub username.
-- `YOUR_REPOSITORY` with the repository name.
+- `YOUR_USERNAME` with your GitHub username
+- `YOUR_REPOSITORY` with your repository name
 
 ---
 
 ## Configure PostgreSQL
 
-Create a PostgreSQL database (for example):
+Create a PostgreSQL database.
+
+Example:
 
 ```sql
-CREATE DATABASE library_management;
+CREATE
+DATABASE library_management;
 ```
 
 ---
 
-## Configure `application.properties`
+## Configure application.properties
 
-Open the file:
+Open:
 
 ```
 src/main/resources/application.properties
 ```
 
-Update the database configuration with your own PostgreSQL credentials:
+Configure your own PostgreSQL credentials:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/library_management
 spring.datasource.username=YOUR_USERNAME
 spring.datasource.password=YOUR_PASSWORD
-
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
 Replace:
 
-- `YOUR_USERNAME` with your PostgreSQL username.
-- `YOUR_PASSWORD` with your PostgreSQL password.
+- `YOUR_USERNAME`
+- `YOUR_PASSWORD`
+
+with your local PostgreSQL credentials.
 
 ---
 
 ## Install Dependencies
 
-This project uses Maven for dependency management.
-
-Reload the Maven project in your IDE or run:
+Reload the Maven project or execute:
 
 ```bash
 mvn clean install
@@ -176,7 +287,7 @@ mvn clean install
 
 ## Run the Application
 
-Start the application by running:
+Run:
 
 ```
 LibraryManagementApplication.java
@@ -194,5 +305,11 @@ Once the application starts successfully, open:
 http://localhost:8080
 ```
 
-to access the Library Management System.
+---
 
+## 💡 Purpose of this Project
+
+This project was developed as a personal learning project to strengthen my Java and Spring Boot skills while building a
+solid understanding of backend application architecture and software development best practices.
+
+It represents my continuous learning journey and serves as part of my backend development portfolio.
