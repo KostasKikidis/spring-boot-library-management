@@ -1,5 +1,6 @@
 package com.books.library_management.controller;
 
+import com.books.library_management.dto.BookDTO;
 import com.books.library_management.entity.Book;
 import com.books.library_management.service.BookService;
 import jakarta.validation.Valid;
@@ -22,14 +23,14 @@ public class BookController {
 
 
     @PostMapping("/addBook")
-    public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
+    public ResponseEntity<BookDTO> addBook(@Valid @RequestBody BookDTO bookdto) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.addBook(book));
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.addBook(bookdto));
     }
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Book>> getBooks() {
+    public ResponseEntity<List<BookDTO>> getBooks() {
 
         if ((bookService.getAllBooks()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -40,7 +41,7 @@ public class BookController {
 
 
     @GetMapping("/getBook/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Integer id) {
+    public ResponseEntity<BookDTO> getBookById(@PathVariable Integer id) {
 
         if ((bookService.getBookById(id)) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -52,7 +53,7 @@ public class BookController {
 
 
     @GetMapping("/availableBooks")
-    public ResponseEntity<List<Book>> getAvailableBooks() {
+    public ResponseEntity<List<BookDTO>> getAvailableBooks() {
         if ((bookService.getAvailableBooks()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -61,7 +62,7 @@ public class BookController {
     }
 
     @GetMapping("/notAvailableBooks")
-    public ResponseEntity<List<Book>> getNotAvailableBooks() {
+    public ResponseEntity<List<BookDTO>> getNotAvailableBooks() {
         if (bookService.getNotAvailableBooks().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -71,7 +72,7 @@ public class BookController {
 
 
     @GetMapping("/getBooksByAuthor/{author}")
-    public ResponseEntity<List<Book>> getBooksByAuthor(@PathVariable String author) {
+    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@PathVariable String author) {
         if ((bookService.getBooksByAuthor(author)).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -81,7 +82,7 @@ public class BookController {
 
 
     @GetMapping("/getBooksByTitle/{title}")
-    public ResponseEntity<List<Book>> getBookByTitle(@PathVariable String title) {
+    public ResponseEntity<List<BookDTO>> getBookByTitle(@PathVariable String title) {
 
         if ((bookService.getBookByTitle(title)).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -92,7 +93,7 @@ public class BookController {
     }
 
     @GetMapping("/greaterThanPrice/{price}")
-    public ResponseEntity<List<Book>> getBooksGreaterThanPrice(@PathVariable Double price) {
+    public ResponseEntity<List<BookDTO>> getBooksGreaterThanPrice(@PathVariable Double price) {
         if (bookService.getBooksGreaterThanPrice(price).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -101,7 +102,7 @@ public class BookController {
     }
 
     @GetMapping("/lessThanPrice/{price}")
-    public ResponseEntity<List<Book>> getBooksLessThanPrice(@PathVariable Double price) {
+    public ResponseEntity<List<BookDTO>> getBooksLessThanPrice(@PathVariable Double price) {
         if (bookService.getBooksLessThanPrice(price).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -111,12 +112,12 @@ public class BookController {
 
 
     @PutMapping("/updateBook/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Integer id, @Valid @RequestBody Book newbook) {
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Integer id, @Valid @RequestBody BookDTO newbookdto) {
 
-        if ((bookService.updateBook(id, newbook)) == null) {
+        if ((bookService.updateBook(id, newbookdto)) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.updateBook(id, newbook));
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.updateBook(id, newbookdto));
     }
 
 

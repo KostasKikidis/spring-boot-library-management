@@ -1,5 +1,6 @@
 package com.books.library_management.controller;
 
+import com.books.library_management.dto.BookDTO;
 import com.books.library_management.entity.Book;
 import com.books.library_management.service.BookService;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,8 @@ public class BookMvcController {
 
     // ADD BOOK
     @PostMapping("/addBook")
-    public String addBook(Book book) {
-        bookService.addBook(book);
+    public String addBook(BookDTO bookdto) {
+        bookService.addBook(bookdto);
         return ("redirect:/");
 
     }
@@ -35,9 +36,9 @@ public class BookMvcController {
 
     //UPDATE BOOK BY ID
     @PostMapping("/updateBook")
-    public String updateBook(@RequestParam Integer id, Book book) {
+    public String updateBook(@RequestParam Integer id, BookDTO bookdto) {
 
-        bookService.updateBook(id, book);
+        bookService.updateBook(id, bookdto);
 
         return ("redirect:/");
     }

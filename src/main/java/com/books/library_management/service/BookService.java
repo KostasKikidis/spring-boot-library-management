@@ -1,5 +1,7 @@
 package com.books.library_management.service;
 
+import com.books.library_management.dto.BookDTO;
+import com.books.library_management.mapper.BookMapper;
 import com.books.library_management.repository.BookRepository;
 import com.books.library_management.entity.Book;
 import org.springframework.stereotype.Service;
@@ -12,37 +14,43 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
 
         this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
     }
 
 
-    public Book addBook(Book book) {
+    public BookDTO addBook(BookDTO bookdto) {
+        Book booktoEntity = bookMapper.toEntity(bookdto);
+        Book saved = bookRepository.save(booktoEntity);
 
-        return bookRepository.save(book);
+        return bookMapper.toBookDTO(saved);
     }
 
 
-    public List<Book> getAllBooks() {
+    public List<BookDTO> getAllBooks() {
 
-        return bookRepository.findAll();
+        return bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
     }
 
-    public Book getBookById(Integer id) {
-        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+    public BookDTO getBookById(Integer id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+        return bookMapper.toBookDTO(book);
     }
 
-    public Book updateBook(Integer id, Book newbook) {
+    public BookDTO updateBook(Integer id, BookDTO newbookdto) {
         if (bookRepository.existsById(id)) {
             Book oldbook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
-            oldbook.setTitle(newbook.getTitle());
-            oldbook.setAuthor(newbook.getAuthor());
-            oldbook.setPrice(newbook.getPrice());
-            oldbook.setAvailable(newbook.getAvailable());
-            return bookRepository.save(oldbook);
+            oldbook.setTitle(newbookdto.getTitle());
+            oldbook.setAuthor(newbookdto.getAuthor());
+            oldbook.setPrice(newbookdto.getPrice());
+            oldbook.setAvailable(newbookdto.getAvailable());
+            Book book = bookRepository.save(oldbook);
+            return bookMapper.toBookDTO(book);
         }
         return null;
 
@@ -58,57 +66,57 @@ public class BookService {
     }
 
 
-    public List<Book> getAvailableBooks() {
-        List<Book> temp = bookRepository.findAll();
-        List<Book> availableBooks = new ArrayList<>();
-        for (Book book : temp) {
-            if (book.getAvailable().equals(true)) {
-                availableBooks.add(book);
+    public List<BookDTO> getAvailableBooks() {
+        List<BookDTO> temp = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> availableBooks = new ArrayList<>();
+        for (BookDTO bookdto : temp) {
+            if (bookdto.getAvailable().equals(true)) {
+                availableBooks.add(bookdto);
             }
         }
         return availableBooks;
     }
 
-    public List<Book> getBooksByAuthor(String author) {
-        List<Book> dbBooks = bookRepository.findAll();
-        List<Book> booksByAuthor = new ArrayList<>();
-        for (Book book : dbBooks) {
-            if (book.getAuthor().equals(author)) {
-                booksByAuthor.add(book);
+    public List<BookDTO> getBooksByAuthor(String author) {
+        List<BookDTO> dbBooks = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> booksByAuthor = new ArrayList<>();
+        for (BookDTO bookdto : dbBooks) {
+            if (bookdto.getAuthor().equals(author)) {
+                booksByAuthor.add(bookdto);
             }
         }
         return booksByAuthor;
     }
 
-    public List<Book> getBookByTitle(String title) {
-        List<Book> allBooks = bookRepository.findAll();
-        List<Book> booksByTitle = new ArrayList<>();
-        for (Book book : allBooks) {
-            if (book.getTitle().equals(title)) {
-                booksByTitle.add(book);
+    public List<BookDTO> getBookByTitle(String title) {
+        List<BookDTO> allBooks = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> booksByTitle = new ArrayList<>();
+        for (BookDTO bookdto : allBooks) {
+            if (bookdto.getTitle().equals(title)) {
+                booksByTitle.add(bookdto);
             }
 
         }
         return booksByTitle;
     }
 
-    public List<Book> getBooksGreaterThanPrice(Double price) {
-        List<Book> theBooks = bookRepository.findAll();
-        List<Book> booksbyprice = new ArrayList<>();
-        for (Book book : theBooks) {
-            if ((book.getPrice()) >= price) {
-                booksbyprice.add(book);
+    public List<BookDTO> getBooksGreaterThanPrice(Double price) {
+        List<BookDTO> theBooks = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> tbooksbyprice = new ArrayList<>();
+        for (BookDTO bookdto : theBooks) {
+            if ((bookdto.getPrice()) >= price) {
+                tbooksbyprice.add(bookdto);
             }
         }
-        return booksbyprice;
+        return tbooksbyprice;
     }
 
-    public List<Book> getBooksLessThanPrice(Double price) {
-        List<Book> theBooks = bookRepository.findAll();
-        List<Book> bookslessbyprice = new ArrayList<>();
-        for (Book book : theBooks) {
-            if ((book.getPrice()) < price) {
-                bookslessbyprice.add(book);
+    public List<BookDTO> getBooksLessThanPrice(Double price) {
+        List<BookDTO> theBooks = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> bookslessbyprice = new ArrayList<>();
+        for (BookDTO bookdto : theBooks) {
+            if ((bookdto.getPrice()) < price) {
+                bookslessbyprice.add(bookdto);
             }
         }
         return bookslessbyprice;
@@ -120,12 +128,12 @@ public class BookService {
 
     }
 
-    public List<Book> getNotAvailableBooks() {
-        List<Book> temp = bookRepository.findAll();
-        List<Book> notAvailableBooks = new ArrayList<>();
-        for (Book book : temp) {
-            if (book.getAvailable().equals(false)) {
-                notAvailableBooks.add(book);
+    public List<BookDTO> getNotAvailableBooks() {
+        List<BookDTO> temp = bookRepository.findAll().stream().map(bookMapper::toBookDTO).toList();
+        List<BookDTO> notAvailableBooks = new ArrayList<>();
+        for (BookDTO bookdto : temp) {
+            if (bookdto.getAvailable().equals(false)) {
+                notAvailableBooks.add(bookdto);
             }
         }
         return notAvailableBooks;

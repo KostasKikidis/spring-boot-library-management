@@ -2,9 +2,7 @@ package com.books.library_management.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+
 
 import java.util.Objects;
 
@@ -15,14 +13,13 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
+
     private String title;
-    @NotBlank
+
     private String author;
-    @Positive
-    @NotNull
+
     private Double price;
-    @NotNull
+
     private Boolean available = false;
 
 
