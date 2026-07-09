@@ -77,17 +77,12 @@ The application follows a layered architecture based on the Spring MVC design pa
                    ▼
              Controller
                    │
-                   ▼
-               BookDTO
+          (BookDTO Objects)
                    │
                    ▼
                Service
                    │
-                   ▼
-              BookMapper
-                   │
-                   ▼
-              Book Entity
+         BookMapper (DTO ↔ Entity)
                    │
                    ▼
              Repository
